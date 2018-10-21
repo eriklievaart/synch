@@ -1,0 +1,11 @@
+
+[compile]
+toolkit @local @snapshot
+commons-csv org.apache.commons 1.1
+commons-io commons-io 2.4
+commons-lang3 org.apache.commons 3.7
+guice com.google.inject 1.0
+
+[test]
+junit junit 4.7
+
