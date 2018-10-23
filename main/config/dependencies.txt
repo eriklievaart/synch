@@ -7,5 +7,6 @@ commons-lang3 org.apache.commons 3.7
 guice com.google.inject 1.0
 
 [test]
+assertj-core org.assertj 3.10.0
 junit junit 4.7
 
