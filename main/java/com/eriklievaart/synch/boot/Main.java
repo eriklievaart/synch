@@ -28,8 +28,7 @@ public class Main {
 			drives.store();
 
 			WindowSaver.initialize();
-			Mirror.synch(from, to);
+			Mirror.synch(from, to, drives.metadataBox.isSelected());
 		});
 	}
-
 }

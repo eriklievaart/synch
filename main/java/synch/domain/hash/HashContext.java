@@ -1,7 +1,6 @@
 package synch.domain.hash;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +8,7 @@ import java.util.Map;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 
+import com.eriklievaart.toolkit.io.api.RuntimeIOException;
 import com.eriklievaart.toolkit.lang.api.collection.FromCollection;
 import com.eriklievaart.toolkit.lang.api.collection.NewCollection;
 
@@ -19,7 +19,7 @@ public class HashContext {
 	private static final long CHECKPOINT_TIME = 5 * MINUTE;
 
 	private SynchLocation location;
-	private List<IOException> ioExceptions = NewCollection.list();
+	private List<RuntimeIOException> ioExceptions = NewCollection.list();
 	private Map<String, FileHash> pathToHash = NewCollection.mapNotNull();
 	private List<File> files;
 	private long startTimestamp;
@@ -48,7 +48,7 @@ public class HashContext {
 		pathToHash.put(hash.getRelativePath(), hash);
 	}
 
-	public void add(IOException e) {
+	public void add(RuntimeIOException e) {
 		ioExceptions.add(e);
 	}
 

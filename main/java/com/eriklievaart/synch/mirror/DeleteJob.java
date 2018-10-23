@@ -22,6 +22,7 @@ public class DeleteJob extends MirrorJob {
 	}
 
 	private static void delete(VirtualFile file) {
+		file.getParentFile().get().resolve(file.getName() + ".smeta").delete();
 		file.delete();
 
 		Optional<? extends VirtualFile> optional = file.getParentFile();

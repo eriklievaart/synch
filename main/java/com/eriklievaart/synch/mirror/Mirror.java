@@ -14,7 +14,7 @@ import com.eriklievaart.toolkit.vfs.api.file.VirtualFile;
 
 public class Mirror {
 
-	public static void synch(VirtualFile from, VirtualFile to) {
+	public static void synch(VirtualFile from, VirtualFile to, boolean metadata) {
 		Check.isTrue(from.isDirectory(), "not a directory: " + from);
 		Check.isTrue(to.isDirectory(), "not a directory: " + to);
 
@@ -25,9 +25,12 @@ public class Mirror {
 		List<String> copy = entriesMissingInFirstSet(destinationPaths, sourcePaths);
 		Console.println("$ files to delete $ files to copy", delete.size(), copy.size());
 
+		CopyJob copyJob = new CopyJob(from, to, copy);
+		copyJob.setMetadata(metadata);
+
 		QueueSelector selector = new QueueSelector();
 		executeOrQueue(selector, new DeleteJob(to, delete), "autodelete");
-		executeOrQueue(selector, new CopyJob(from, to, copy), "autocopy");
+		executeOrQueue(selector, copyJob, "autocopy");
 	}
 
 	private static void executeOrQueue(QueueSelector selector, MirrorJob job, String autoProperty) {
@@ -55,6 +58,7 @@ public class Mirror {
 		Set<String> paths = new TreeSet<>();
 		VirtualFileScanner scanner = new VirtualFileScanner(directory);
 		scanner.addDirectoryFilter(file -> !file.getName().toLowerCase().startsWith(".trash"));
+		scanner.addFileFilter(file -> !file.getExtension().equalsIgnoreCase("smeta"));
 
 		for (VirtualFile child : scanner) {
 			String path = directory.getRelativePathOf(child);

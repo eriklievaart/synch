@@ -6,6 +6,7 @@ import java.io.IOException;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 
 import com.eriklievaart.toolkit.io.api.Console;
+import com.eriklievaart.toolkit.io.api.RuntimeIOException;
 import com.eriklievaart.toolkit.io.api.sha1.Sha1;
 import com.eriklievaart.toolkit.lang.api.check.Check;
 import com.eriklievaart.toolkit.logging.api.LogTemplate;
@@ -61,7 +62,7 @@ public class Hashes {
 			String hash = Sha1.hash(file);
 			context.add(new FileHash(relativePath, fileSize, hash));
 
-		} catch (IOException e) {
+		} catch (RuntimeIOException e) {
 			log.warn("Cannot hash file %", e, file);
 			context.add(e);
 		}
