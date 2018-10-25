@@ -1,4 +1,4 @@
-package com.eriklievaart.synch.mirror;
+package com.eriklievaart.synch.mirror.job;
 
 import java.util.List;
 
@@ -6,14 +6,13 @@ import com.eriklievaart.toolkit.lang.api.str.Str;
 
 public abstract class MirrorJob {
 
-	public List<String> paths;
+	private List<String> paths;
 	public String title;
 	public String autoAcceptProperty;
 	private int total = 0;
 	private int current = 0;
 
-	public MirrorJob(String title, List<String> paths) {
-		this.title = title;
+	public MirrorJob(List<String> paths) {
 		this.paths = paths;
 	}
 
@@ -30,5 +29,16 @@ public abstract class MirrorJob {
 	protected String getProgress() {
 		long percentage = Math.round(100.0 * current / total);
 		return Str.sub("$$ ($/$)", percentage, "%", current, total);
+	}
+
+	public List<String> getAllPaths() {
+		return paths;
+	}
+
+	/**
+	 * Override this method to filter a subset of all paths to process
+	 */
+	public List<String> filterValidPaths() {
+		return paths;
 	}
 }

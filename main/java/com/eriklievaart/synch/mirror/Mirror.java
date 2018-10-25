@@ -1,9 +1,14 @@
 package com.eriklievaart.synch.mirror;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.eriklievaart.synch.mirror.job.ChangedJob;
+import com.eriklievaart.synch.mirror.job.CopyJob;
+import com.eriklievaart.synch.mirror.job.DeleteJob;
+import com.eriklievaart.synch.mirror.job.MirrorJob;
 import com.eriklievaart.toolkit.io.api.Console;
 import com.eriklievaart.toolkit.io.api.SystemProperties;
 import com.eriklievaart.toolkit.lang.api.check.Check;
@@ -27,18 +32,21 @@ public class Mirror {
 
 		CopyJob copyJob = new CopyJob(from, to, copy);
 		copyJob.setMetadata(metadata);
+		ChangedJob changedJob = new ChangedJob(from, to, new ArrayList<>(sourcePaths));
+		changedJob.setMetadata(metadata);
 
 		QueueSelector selector = new QueueSelector();
 		executeOrQueue(selector, new DeleteJob(to, delete), "autodelete");
 		executeOrQueue(selector, copyJob, "autocopy");
+		executeOrQueue(selector, changedJob, "autocopy");
 	}
 
 	private static void executeOrQueue(QueueSelector selector, MirrorJob job, String autoProperty) {
-		if (job.paths.isEmpty()) {
-			return;
-		}
+		System.out.println("starting job: " + job.getClass().getName());
+
 		if (SystemProperties.isSet(autoProperty, "true")) {
-			job.consume(job.paths);
+			job.consume(job.filterValidPaths());
+
 		} else {
 			selector.addJob(job);
 		}

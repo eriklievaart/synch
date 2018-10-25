@@ -1,4 +1,4 @@
-package com.eriklievaart.synch.mirror;
+package com.eriklievaart.synch.mirror.job;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,8 +10,9 @@ public class DeleteJob extends MirrorJob {
 	private VirtualFile root;
 
 	public DeleteJob(VirtualFile root, List<String> paths) {
-		super("delete queued files from " + root.getPath(), paths);
+		super(paths);
 		this.root = root;
+		this.title = "delete queued files from " + root.getPath();
 	}
 
 	@Override

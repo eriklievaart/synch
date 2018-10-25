@@ -1,18 +1,22 @@
 package com.eriklievaart.synch.mirror;
 
+import java.util.Map;
 import java.util.Set;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.eriklievaart.toolkit.io.api.PropertiesIO;
+import com.eriklievaart.toolkit.io.api.sha1.Sha1;
 import com.eriklievaart.toolkit.lang.api.check.Check;
 import com.eriklievaart.toolkit.test.api.SandboxTest;
 
 public class MirrorU extends SandboxTest {
+	private static final boolean METADATA_ON = true;
+	private static final boolean METADATA_OFF = false;
 
 	// TODO
-
 	// copy timestamp changed
 	// copy hash changed
 
@@ -47,7 +51,7 @@ public class MirrorU extends SandboxTest {
 		memoryFile("to/b").writeString("bbbb");
 		memoryFile("to/b.smeta").writeString("metadata");
 
-		Mirror.synch(memoryFile("from"), memoryFile("to"), false);
+		Mirror.synch(memoryFile("from"), memoryFile("to"), METADATA_OFF);
 
 		Check.isEqual(memoryFile("from/a").readString(), "aaaa");
 		Check.isEqual(memoryFile("to/a").readString(), "aaaa");
@@ -62,7 +66,7 @@ public class MirrorU extends SandboxTest {
 		memoryFile("to/a").writeString("aaaa");
 		memoryFile("to/deletedir/b").writeString("bbbb");
 
-		Mirror.synch(memoryFile("from"), memoryFile("to"), false);
+		Mirror.synch(memoryFile("from"), memoryFile("to"), METADATA_OFF);
 
 		Check.isEqual(memoryFile("from/a").readString(), "aaaa");
 		Check.isEqual(memoryFile("to/a").readString(), "aaaa");
@@ -75,7 +79,7 @@ public class MirrorU extends SandboxTest {
 		memoryFile("from/b").writeString("bbbb");
 		memoryFile("to/a").writeString("aaaa");
 
-		Mirror.synch(memoryFile("from"), memoryFile("to"), false);
+		Mirror.synch(memoryFile("from"), memoryFile("to"), METADATA_OFF);
 
 		Check.isEqual(memoryFile("from/a").readString(), "aaaa");
 		Check.isEqual(memoryFile("to/a").readString(), "aaaa");
@@ -90,14 +94,13 @@ public class MirrorU extends SandboxTest {
 		memoryFile("from/a").writeString("aaaa");
 		memoryFile("to").mkdir();
 
-		Mirror.synch(memoryFile("from"), memoryFile("to"), true);
+		Mirror.synch(memoryFile("from"), memoryFile("to"), METADATA_ON);
 
 		Check.isEqual(memoryFile("to/a").readString(), "aaaa");
 		Check.isEqual(memoryFile("from/a").readString(), "aaaa");
 		Check.isFalse(memoryFile("from/a.smeta").exists());
 
-		String expectedHash = "sha1=70c881d4a26984ddce795f6f71817c9cf4480e79";
-		Assertions.assertThat(memoryFile("to/a.smeta").readString()).contains(expectedHash);
+		Assertions.assertThat(memoryFile("to/a.smeta").readString()).contains(Sha1.hash("aaaa"));
 	}
 
 	@Test
@@ -105,12 +108,39 @@ public class MirrorU extends SandboxTest {
 		memoryFile("from/a").writeString("aaaa");
 		memoryFile("from/a.smeta").writeString("metadata");
 
-		Mirror.synch(memoryFile("from"), memoryFile("to"), false);
+		Mirror.synch(memoryFile("from"), memoryFile("to"), METADATA_OFF);
 
 		Check.isEqual(memoryFile("from/a").readString(), "aaaa");
 		Check.isEqual(memoryFile("from/a.smeta").readString(), "metadata");
 		Check.isEqual(memoryFile("to/a").readString(), "aaaa");
 		Check.isFalse(memoryFile("to/a.smeta").exists());
+	}
+
+	@Test
+	public void copyOlder() throws InterruptedException {
+		memoryFile("from/a").writeString("data");
+		memoryFile("to/a").writeString("newer");
+
+		Mirror.synch(memoryFile("from"), memoryFile("to"), METADATA_OFF);
+
+		Check.isEqual(memoryFile("from/a").readString(), "data");
+		Check.isEqual(memoryFile("to/a").readString(), "newer");
+	}
+
+	@Test
+	public void copyNewer() throws InterruptedException {
+		memoryFile("to/a").writeString("older");
+		Thread.sleep(10);
+		memoryFile("from/a").writeString("newer");
+
+		Mirror.synch(memoryFile("from"), memoryFile("to"), METADATA_ON);
+
+		Check.isEqual(memoryFile("from/a").readString(), "newer");
+		Check.isEqual(memoryFile("to/a").readString(), "newer");
+		Check.isTrue(memoryFile("to/a.smeta").exists());
+
+		Map<String, String> properties = PropertiesIO.loadStrings(memoryFile("to/a.smeta").getInputStream());
+		Check.isEqual(properties.get("sha1"), Sha1.hash("newer"));
 	}
 
 	@Test
@@ -120,7 +150,7 @@ public class MirrorU extends SandboxTest {
 		memoryFile("to/b").writeString("bbbb");
 		memoryFile("to/c").writeString("bbbb");
 
-		Mirror.synch(memoryFile("from"), memoryFile("to"), false);
+		Mirror.synch(memoryFile("from"), memoryFile("to"), METADATA_OFF);
 
 		Check.isEqual(memoryFile("from/a").readString(), "aaaa");
 		Check.isEqual(memoryFile("to/a").readString(), "aaaa");

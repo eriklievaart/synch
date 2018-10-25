@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListModel;
 
+import com.eriklievaart.synch.mirror.job.MirrorJob;
 import com.eriklievaart.toolkit.lang.api.collection.NewCollection;
 import com.eriklievaart.toolkit.swing.api.builder.JFrameBuilder;
 
@@ -38,6 +39,9 @@ public class QueueSelector {
 	}
 
 	public void addJob(MirrorJob job) {
+		if (job.getAllPaths().isEmpty()) {
+			return;
+		}
 		if (jobs.size() == 0) {
 			initJob(job);
 		}
@@ -83,13 +87,16 @@ public class QueueSelector {
 	}
 
 	private void initJob(MirrorJob job) {
-		frame.setTitle(job.title);
-
 		available.clear();
 		queue.clear();
-		available.addAll(job.paths);
-		updateLists();
+		available.addAll(job.filterValidPaths());
 
+		if (available.isEmpty()) {
+			nextJob();
+			return;
+		}
+
+		updateLists();
 		for (ActionListener listener : goButton.getActionListeners()) {
 			goButton.removeActionListener(listener);
 		}
@@ -97,14 +104,18 @@ public class QueueSelector {
 			frame.setVisible(false);
 			MirrorJob execute = jobs.remove(0);
 			execute.consume(getQueuedPaths());
-
-			if (jobs.isEmpty()) {
-				System.exit(0);
-			} else {
-				initJob(jobs.get(0));
-			}
+			nextJob();
 		});
+		frame.setTitle(job.title);
 		frame.setVisible(true);
+	}
+
+	private void nextJob() {
+		if (jobs.isEmpty()) {
+			System.exit(0);
+		} else {
+			initJob(jobs.get(0));
+		}
 	}
 
 	private List<String> getQueuedPaths() {
