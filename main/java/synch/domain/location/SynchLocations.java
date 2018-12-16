@@ -45,5 +45,4 @@ public class SynchLocations extends ObservableDelegate implements Observer {
 			log.warn("Unable to save locations: " + e.getMessage(), e);
 		}
 	}
-
 }

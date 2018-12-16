@@ -114,7 +114,7 @@ public class QueueSelector {
 		if (jobs.isEmpty()) {
 			System.exit(0);
 		} else {
-			initJob(jobs.get(0));
+			initJob(jobs.remove(0));
 		}
 	}
 

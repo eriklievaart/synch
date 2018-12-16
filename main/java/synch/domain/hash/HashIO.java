@@ -81,5 +81,4 @@ public class HashIO {
 	private File getHashFile(HashContext context) {
 		return new File(paths.getStoreHashDir(), context.getSynchLocationName() + ".csv");
 	}
-
 }

@@ -109,5 +109,4 @@ public class HashContext {
 	public void timestampEndSave() {
 		timestampEndSave = System.currentTimeMillis();
 	}
-
 }

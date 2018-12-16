@@ -44,7 +44,7 @@ public class FileHashTreeConverterU {
 	}
 
 	private void validatePath(String path, DefaultMutableTreeNode node) {
-		String parent = UrlTool.removeSlash(UrlTool.getParent(path)); // exclude file name
+		String parent = UrlTool.removeTrailingSlash(UrlTool.getParent(path)); // exclude file name
 		String actual = toPath(node);
 		Check.isEqual(actual, parent);
 	}

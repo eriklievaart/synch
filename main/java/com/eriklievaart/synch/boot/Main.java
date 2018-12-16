@@ -14,9 +14,11 @@ public class Main {
 
 	public static void main(String[] args) {
 		SwingThread.invokeAndWaitUnchecked(() -> {
-
 			DriveSelector drives = new DriveSelector();
-			if (args.length != 2) {
+			if (args.length == 2) {
+				drives.fromField.setText(args[0]);
+				drives.toField.setText(args[1]);
+			} else {
 				int result = JOptionPane.showConfirmDialog(null, drives, "select drives", JOptionPane.OK_CANCEL_OPTION);
 				if (result != JOptionPane.OK_OPTION) {
 					System.out.println("exiting, user abort");

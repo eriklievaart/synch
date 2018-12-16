@@ -41,5 +41,4 @@ public class LocationPanelComponents {
 	public JTextField getLocationField() {
 		return locationField;
 	}
-
 }

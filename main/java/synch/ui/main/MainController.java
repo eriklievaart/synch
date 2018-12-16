@@ -70,5 +70,4 @@ public class MainController {
 	public void show() {
 		components.getFrame().setVisible(true);
 	}
-
 }

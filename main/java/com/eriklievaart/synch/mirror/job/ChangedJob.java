@@ -57,5 +57,4 @@ public class ChangedJob extends CopyJob {
 		String sha1 = metadata ? Sha1.hash(destination.getContent().getInputStream()) : "";
 		return createMetadata(source, sha1, path);
 	}
-
 }

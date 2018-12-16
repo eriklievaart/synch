@@ -42,5 +42,4 @@ public class MainComponents {
 	public JButton getCompareButton() {
 		return compareButton;
 	}
-
 }

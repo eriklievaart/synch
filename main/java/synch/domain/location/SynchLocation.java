@@ -27,5 +27,4 @@ public class SynchLocation {
 	public String toString() {
 		return name + " => " + location + "";
 	}
-
 }

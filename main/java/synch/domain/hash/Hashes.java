@@ -81,5 +81,4 @@ public class Hashes {
 		String etaHuman = DurationFormatUtils.formatDurationHMS(eta);
 		Console.println("hashing $ ($/$)  eta $ms => $", percent + "%", index, total, etaHuman, context.getFile());
 	}
-
 }

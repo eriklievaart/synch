@@ -22,6 +22,7 @@ public class Mirror {
 	public static void synch(VirtualFile from, VirtualFile to, boolean metadata) {
 		Check.isTrue(from.isDirectory(), "not a directory: " + from);
 		Check.isTrue(to.isDirectory(), "not a directory: " + to);
+		Check.isFalse(from.getPath().equals(to.getPath()), "cannot compare to itself $", from.getPath());
 
 		Set<String> sourcePaths = listPaths(from);
 		Set<String> destinationPaths = listPaths(to);
@@ -63,10 +64,11 @@ public class Mirror {
 	}
 
 	static Set<String> listPaths(VirtualFile directory) {
+		Console.println("$ listing paths", directory.getPath());
 		Set<String> paths = new TreeSet<>();
 		VirtualFileScanner scanner = new VirtualFileScanner(directory);
 		scanner.addDirectoryFilter(file -> !file.getName().toLowerCase().startsWith(".trash"));
-		scanner.addFileFilter(file -> !file.getExtension().equalsIgnoreCase("smeta"));
+		scanner.addFileFilter(file -> !file.getUrl().getExtension().equalsIgnoreCase("smeta"));
 
 		for (VirtualFile child : scanner) {
 			String path = directory.getRelativePathOf(child);
@@ -75,7 +77,7 @@ public class Mirror {
 			}
 			paths.add(path);
 		}
-		Console.println("indexed $ files in $", paths.size(), directory.getPath());
+		Console.println("$ indexed $ files", directory.getPath(), paths.size());
 		return paths;
 	}
 }

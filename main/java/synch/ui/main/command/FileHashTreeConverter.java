@@ -40,5 +40,4 @@ public class FileHashTreeConverter {
 		current.add(child);
 		return child;
 	}
-
 }

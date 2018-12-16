@@ -103,5 +103,4 @@ public class CompareIndexesCommand {
 				JOptionPane.QUESTION_MESSAGE, null, locations, null);
 		return from;
 	}
-
 }

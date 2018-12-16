@@ -41,5 +41,4 @@ public class SynchLocationsIO {
 		}
 		return locations;
 	}
-
 }
