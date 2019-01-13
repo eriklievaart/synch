@@ -102,8 +102,9 @@ public class QueueSelector {
 		}
 		goButton.addActionListener(ae -> {
 			frame.setVisible(false);
-			MirrorJob execute = jobs.remove(0);
-			execute.consume(getQueuedPaths());
+			if (!jobs.isEmpty()) {
+				jobs.remove(0).consume(getQueuedPaths());
+			}
 			nextJob();
 		});
 		frame.setTitle(job.title);

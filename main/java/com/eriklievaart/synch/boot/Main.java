@@ -31,6 +31,7 @@ public class Main {
 
 			WindowSaver.initialize();
 			Mirror.synch(from, to, drives.metadataBox.isSelected());
+			System.out.println("complete!");
 		});
 	}
 }

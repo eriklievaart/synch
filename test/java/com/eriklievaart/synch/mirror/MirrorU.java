@@ -11,14 +11,12 @@ import com.eriklievaart.toolkit.io.api.PropertiesIO;
 import com.eriklievaart.toolkit.io.api.sha1.Sha1;
 import com.eriklievaart.toolkit.lang.api.check.Check;
 import com.eriklievaart.toolkit.test.api.SandboxTest;
+import com.eriklievaart.toolkit.vfs.api.file.MemoryFile;
+import com.eriklievaart.toolkit.vfs.api.file.SystemFile;
 
 public class MirrorU extends SandboxTest {
 	private static final boolean METADATA_ON = true;
 	private static final boolean METADATA_OFF = false;
-
-	// TODO
-	// copy timestamp changed
-	// copy hash changed
 
 	@Before
 	public void init() {
@@ -74,6 +72,68 @@ public class MirrorU extends SandboxTest {
 	}
 
 	@Test
+	public void deleteFileAndDirectory() {
+		memoryFile("from/c").writeString("c");
+		memoryFile("to/a/b").writeString("b");
+
+		Mirror.synch(memoryFile("from"), memoryFile("to"), METADATA_OFF);
+
+		Check.isFalse(memoryFile("to/a").exists());
+		Check.isTrue(memoryFile("to/c").exists());
+	}
+
+	@Test
+	public void deleteFileAndDirectoryNested() {
+		memoryFile("from/d").writeString("d");
+		memoryFile("to/a/b/c").writeString("c");
+
+		Mirror.synch(memoryFile("from"), memoryFile("to"), METADATA_OFF);
+
+		Check.isFalse(memoryFile("to/a").exists());
+		Check.isTrue(memoryFile("to/d").exists());
+	}
+
+	@Test
+	public void copyTimestamp() {
+		MemoryFile original = memoryFile("from/a");
+		original.writeString("aaaa");
+		original.setLastModified(1547067136323l);
+		MemoryFile copy = memoryFile("to/a");
+
+		Mirror.synch(memoryFile("from"), memoryFile("to"), METADATA_OFF);
+
+		Check.isEqual(original.readString(), "aaaa");
+		Check.isEqual(copy.readString(), "aaaa");
+		Check.isEqual(original.lastModified(), copy.lastModified());
+	}
+
+	@Test
+	public void copyEmptyDir() {
+		SystemFile original = systemFile("from/a");
+		original.writeString("aaaa");
+		systemFile("from/b").mkdir();
+		systemFile("to").mkdir();
+
+		Mirror.synch(systemFile("from"), systemFile("to"), METADATA_OFF);
+
+		Check.isTrue(systemFile("to/b").isDirectory());
+		Check.isTrue(systemFile("to/b").exists());
+	}
+
+	@Test
+	public void copyEmptyDirSkipIfParentIsMissing() {
+		SystemFile original = systemFile("from/a");
+		original.writeString("aaaa");
+		systemFile("from/b/c").mkdir();
+		systemFile("to").mkdir();
+
+		Mirror.synch(systemFile("from"), systemFile("to"), METADATA_OFF);
+
+		Check.isFalse(systemFile("to/b/c").isDirectory());
+		Check.isFalse(systemFile("to/b/c").exists());
+	}
+
+	@Test
 	public void copyMissingInDestination() {
 		memoryFile("from/a").writeString("aaaa");
 		memoryFile("from/b").writeString("bbbb");
@@ -119,6 +179,7 @@ public class MirrorU extends SandboxTest {
 	@Test
 	public void copyOlder() throws InterruptedException {
 		memoryFile("from/a").writeString("data");
+		Thread.sleep(10);
 		memoryFile("to/a").writeString("newer");
 
 		Mirror.synch(memoryFile("from"), memoryFile("to"), METADATA_OFF);

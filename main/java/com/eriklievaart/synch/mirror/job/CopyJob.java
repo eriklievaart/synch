@@ -31,6 +31,7 @@ public class CopyJob extends MirrorJob {
 		destination.getParentFile().get().mkdir();
 		InputStream is = source.getContent().getInputStream();
 		String sha1 = Sha1.sha1CopyAndHash(is, destination.getContent().getOutputStream());
+		destination.setLastModified(source.lastModified());
 
 		createMetadata(source, sha1, path);
 	}
