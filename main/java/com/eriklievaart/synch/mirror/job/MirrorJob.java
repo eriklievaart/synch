@@ -2,6 +2,7 @@ package com.eriklievaart.synch.mirror.job;
 
 import java.util.List;
 
+import com.eriklievaart.toolkit.lang.api.collection.ListTool;
 import com.eriklievaart.toolkit.lang.api.str.Str;
 
 public abstract class MirrorJob {
@@ -13,7 +14,7 @@ public abstract class MirrorJob {
 	private int current = 0;
 
 	public MirrorJob(List<String> paths) {
-		this.paths = paths;
+		this.paths = ListTool.sortedCopy(paths);
 	}
 
 	public void consume(List<String> selectedPaths) {
