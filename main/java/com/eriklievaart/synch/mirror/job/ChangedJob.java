@@ -54,6 +54,7 @@ public class ChangedJob extends CopyJob {
 		if (smeta.exists()) {
 			return PropertiesIO.loadStrings(smeta.getContent().getInputStream());
 		}
+		System.out.println("creating metadata for " + path.replaceAll("[^\\p{Print}]", ""));
 		String sha1 = metadata ? Sha1.hash(destination.getContent().getInputStream()) : "";
 		return createMetadata(source, sha1, path);
 	}

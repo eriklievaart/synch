@@ -39,7 +39,6 @@ public class CopyJob extends MirrorJob {
 	protected Map<String, String> createMetadata(VirtualFile source, String sha1, String path) {
 		Map<String, String> properties = createMetadata(source, sha1);
 		if (metadata) {
-			System.out.println("storing metadata for " + path);
 			PropertiesIO.storeStrings(properties, toRoot.resolve(path + ".smeta").getContent().getOutputStream());
 		}
 		return properties;

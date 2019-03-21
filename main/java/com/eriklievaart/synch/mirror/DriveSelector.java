@@ -20,6 +20,7 @@ public class DriveSelector extends JPanel {
 	public JTextField fromField = new JTextField();
 	public JTextField toField = new JTextField();
 	public JCheckBox metadataBox = new JCheckBox("store metadata", null);
+	public JCheckBox reviewBox = new JCheckBox("review changeset", true);
 
 	{
 		setLayout(new GridLayout(0, 1));
@@ -28,6 +29,7 @@ public class DriveSelector extends JPanel {
 		add(new JLabel("Copy to (backup location with metadata):"));
 		add(toField);
 		add(metadataBox);
+		add(reviewBox);
 		load();
 	}
 
@@ -45,5 +47,12 @@ public class DriveSelector extends JPanel {
 		fromField.setText(properties.getOrDefault("from", "/media"));
 		toField.setText(properties.getOrDefault("to", "/media"));
 		metadataBox.setSelected(new String("true").equalsIgnoreCase(properties.getOrDefault("metadata", "true")));
+	}
+
+	public void setAutoCopyProperties() {
+		if (!reviewBox.isSelected()) {
+			System.setProperty("autodelete", "true");
+			System.setProperty("autocopy", "true");
+		}
 	}
 }

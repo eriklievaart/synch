@@ -30,6 +30,7 @@ public class Main {
 			drives.store();
 
 			WindowSaver.initialize();
+			drives.setAutoCopyProperties();
 			Mirror.synch(from, to, drives.metadataBox.isSelected());
 			System.out.println("complete!");
 		});
