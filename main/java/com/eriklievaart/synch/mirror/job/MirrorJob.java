@@ -42,4 +42,9 @@ public abstract class MirrorJob {
 	public List<String> filterValidPaths() {
 		return paths;
 	}
+
+	@Override
+	public String toString() {
+		return getClass().getSimpleName();
+	}
 }

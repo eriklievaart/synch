@@ -102,9 +102,7 @@ public class QueueSelector {
 		}
 		goButton.addActionListener(ae -> {
 			frame.setVisible(false);
-			if (!jobs.isEmpty()) {
-				jobs.remove(0).consume(getQueuedPaths());
-			}
+			job.consume(getQueuedPaths());
 			nextJob();
 		});
 		frame.setTitle(job.title);
@@ -112,10 +110,11 @@ public class QueueSelector {
 	}
 
 	private void nextJob() {
+		jobs.remove(0);
 		if (jobs.isEmpty()) {
 			System.exit(0);
 		} else {
-			initJob(jobs.remove(0));
+			initJob(jobs.get(0));
 		}
 	}
 
