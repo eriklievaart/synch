@@ -7,7 +7,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.eriklievaart.toolkit.io.api.PropertiesIO;
+import com.eriklievaart.toolkit.io.api.properties.PropertiesIO;
 import com.eriklievaart.toolkit.io.api.sha1.Sha1;
 import com.eriklievaart.toolkit.lang.api.check.Check;
 import com.eriklievaart.toolkit.test.api.SandboxTest;

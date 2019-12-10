@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.eriklievaart.toolkit.convert.api.ConversionException;
-import com.eriklievaart.toolkit.io.api.PropertiesIO;
+import com.eriklievaart.toolkit.io.api.properties.PropertiesIO;
 import com.eriklievaart.toolkit.lang.api.collection.NewCollection;
 import com.eriklievaart.toolkit.lang.api.str.Str;
 import com.google.inject.Inject;

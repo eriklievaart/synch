@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import com.eriklievaart.toolkit.io.api.JvmPaths;
-import com.eriklievaart.toolkit.io.api.PropertiesIO;
+import com.eriklievaart.toolkit.io.api.properties.PropertiesIO;
 import com.eriklievaart.toolkit.lang.api.collection.NewCollection;
 
 public class DriveSelector extends JPanel {
