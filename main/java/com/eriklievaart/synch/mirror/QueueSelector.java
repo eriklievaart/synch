@@ -101,16 +101,23 @@ public class QueueSelector {
 			goButton.removeActionListener(listener);
 		}
 		goButton.addActionListener(ae -> {
-			frame.setVisible(false);
-			job.consume(getQueuedPaths());
-			nextJob();
+			try {
+				frame.setVisible(false);
+				job.consume(getQueuedPaths());
+				nextJob();
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.exit(1);
+			}
 		});
 		frame.setTitle(job.title);
 		frame.setVisible(true);
 	}
 
 	private void nextJob() {
-		jobs.remove(0);
+		if (!jobs.isEmpty()) {
+			jobs.remove(0);
+		}
 		if (jobs.isEmpty()) {
 			System.exit(0);
 		} else {

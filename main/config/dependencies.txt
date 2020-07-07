@@ -1,6 +1,7 @@
 
 [compile]
 toolkit @local @snapshot
+toolkit-mock @local @snapshot
 commons-csv org.apache.commons 1.1
 commons-io commons-io 2.4
 commons-lang3 org.apache.commons 3.5
@@ -9,3 +10,4 @@ guice com.google.inject 1.0
 [test]
 assertj-core org.assertj 3.10.0
 junit junit 4.7
+

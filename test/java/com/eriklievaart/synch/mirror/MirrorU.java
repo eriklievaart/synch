@@ -10,7 +10,7 @@ import org.junit.Test;
 import com.eriklievaart.toolkit.io.api.properties.PropertiesIO;
 import com.eriklievaart.toolkit.io.api.sha1.Sha1;
 import com.eriklievaart.toolkit.lang.api.check.Check;
-import com.eriklievaart.toolkit.test.api.SandboxTest;
+import com.eriklievaart.toolkit.mock.SandboxTest;
 import com.eriklievaart.toolkit.vfs.api.file.MemoryFile;
 import com.eriklievaart.toolkit.vfs.api.file.SystemFile;
 
