@@ -1,0 +1,72 @@
+
+$font=font Ubuntu 22
+$dark=color 64,64,64
+$text=color 236,236,236
+$input=color 48,71,94
+$caret=color 255,255,0
+
+List.background=$dark
+List.foreground=$text
+
+Label.background=$dark
+Label.foreground=$text
+
+CheckBox.background=$dark
+CheckBox.foreground=$text
+
+Button.background=color 100,100,100
+Button.foreground=color 0,0,0
+
+Panel.background=$dark
+Panel.foreground=$text
+
+TextArea.background=$dark
+TextArea.foreground=$text
+TextArea.caretForeground=$caret
+
+TextField.background=$input
+TextField.foreground=$text
+TextField.caretForeground=$caret
+
+OptionPane.background=$dark
+
+Button.font=$font
+CheckBox.font=$font
+CheckBoxMenuItem.acceleratorFont=$font
+CheckBoxMenuItem.font=$font
+ColorChooser.font=$font
+ComboBox.font=$font
+DesktopIcon.font=$font
+EditorPane.font=$font
+FormattedTextField.font=$font
+InternalFrame.titleFont=$font
+Label.font=$font
+List.font=$font
+Menu.acceleratorFont=$font
+MenuBar.font=$font
+Menu.font=$font
+MenuItem.acceleratorFont=$font
+MenuItem.font=$font
+OptionPane.font=$font
+Panel.font=$font
+PasswordField.font=$font
+PopupMenu.font=$font
+ProgressBar.font=$font
+RadioButton.font=$font
+RadioButtonMenuItem.acceleratorFont=$font
+RadioButtonMenuItem.font=$font
+ScrollPane.font=$font
+Slider.font=$font
+Spinner.font=$font
+TabbedPane.font=$font
+Table.font=$font
+TableHeader.font=$font
+TextArea.font=$font
+TextField.font=$font
+TextPane.font=$font
+TitledBorder.font=$font
+ToggleButton.font=$font
+ToolBar.font=$font
+ToolTip.font=$font
+Tree.font=$font
+Viewport.font=$font

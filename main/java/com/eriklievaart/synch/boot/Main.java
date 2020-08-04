@@ -8,12 +8,15 @@ import com.eriklievaart.synch.mirror.DriveSelector;
 import com.eriklievaart.synch.mirror.Mirror;
 import com.eriklievaart.toolkit.swing.api.SwingThread;
 import com.eriklievaart.toolkit.swing.api.WindowSaver;
+import com.eriklievaart.toolkit.swing.api.laf.LookAndFeel;
 import com.eriklievaart.toolkit.vfs.api.file.SystemFile;
 
 public class Main {
 
 	public static void main(String[] args) {
 		SwingThread.invokeAndWaitUnchecked(() -> {
+			LookAndFeel.instance().load();
+
 			DriveSelector drives = new DriveSelector();
 			if (args.length == 2) {
 				drives.fromField.setText(args[0]);
