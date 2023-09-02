@@ -1,5 +1,6 @@
 package com.eriklievaart.synch.mirror.job;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
@@ -26,5 +27,10 @@ public class EmptyDirJob extends MirrorJob {
 				file.mkdir();
 			}
 		}
+	}
+
+	@Override
+	public Color getButtonColor() {
+		return null;
 	}
 }

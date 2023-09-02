@@ -96,6 +96,7 @@ public class QueueSelector {
 			return;
 		}
 
+		goButton.setBackground(job.getButtonColor());
 		updateLists();
 		for (ActionListener listener : goButton.getActionListeners()) {
 			goButton.removeActionListener(listener);

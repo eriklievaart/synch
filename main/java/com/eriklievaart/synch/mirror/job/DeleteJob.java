@@ -1,5 +1,6 @@
 package com.eriklievaart.synch.mirror.job;
 
+import java.awt.Color;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,5 +34,10 @@ public class DeleteJob extends MirrorJob {
 				delete(parent);
 			}
 		}
+	}
+
+	@Override
+	public Color getButtonColor() {
+		return Color.RED;
 	}
 }

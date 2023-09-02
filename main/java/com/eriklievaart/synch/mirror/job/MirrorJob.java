@@ -1,5 +1,6 @@
 package com.eriklievaart.synch.mirror.job;
 
+import java.awt.Color;
 import java.util.List;
 
 import com.eriklievaart.toolkit.lang.api.collection.ListTool;
@@ -24,6 +25,8 @@ public abstract class MirrorJob {
 			accept(path);
 		}
 	}
+
+	public abstract Color getButtonColor();
 
 	protected abstract void accept(String path);
 

@@ -1,5 +1,6 @@
 package com.eriklievaart.synch.mirror.job;
 
+import java.awt.Color;
 import java.util.List;
 import java.util.Map;
 
@@ -57,5 +58,10 @@ public class ChangedJob extends CopyJob {
 		System.out.println("hashing " + path.replaceAll("[^\\p{Print}]", ""));
 		String sha1 = metadata ? Sha1.hash(destination.getContent().getInputStream()) : "";
 		return createMetadata(source, sha1, path);
+	}
+
+	@Override
+	public Color getButtonColor() {
+		return Color.ORANGE;
 	}
 }

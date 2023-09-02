@@ -1,5 +1,6 @@
 package com.eriklievaart.synch.mirror.job;
 
+import java.awt.Color;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
@@ -54,5 +55,10 @@ public class CopyJob extends MirrorJob {
 
 	public void setMetadata(boolean metadata) {
 		this.metadata = metadata;
+	}
+
+	@Override
+	public Color getButtonColor() {
+		return Color.GREEN;
 	}
 }
